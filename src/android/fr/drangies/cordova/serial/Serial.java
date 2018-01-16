@@ -49,6 +49,7 @@ public class Serial extends CordovaPlugin {
 	private static final String ACTION_WRITE = "writeSerial";
 	private static final String ACTION_WRITE_HEX = "writeSerialHex";
 	private static final String ACTION_CLOSE = "closeSerial";
+	private static final String ACTION_USB_DETACHED = "usbDetached";
 	private static final String ACTION_READ_CALLBACK = "registerReadCallback";
 
 	// UsbManager instance to deal with permission and opening
@@ -137,6 +138,11 @@ public class Serial extends CordovaPlugin {
 		// Register read callback
 		else if (ACTION_READ_CALLBACK.equals(action)) {
 			registerReadCallback(callbackContext);
+			return true;
+		}
+		// Receive USB device detach
+		else if (ACTION_USB_DETACHED.equals(action)) {
+			usbDetached(callbackContext);
 			return true;
 		}
 		// the action doesn't exist
@@ -466,6 +472,23 @@ public class Serial extends CordovaPlugin {
 				PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, returnObj);
 				pluginResult.setKeepCallback(true);
 				callbackContext.sendPluginResult(pluginResult);
+			}
+		});
+	}
+
+	/**
+	 * BroadcastReceiver for USB detached
+	 * @param callbackContext the cordova {@link CallbackContext}
+	 */
+	private void usbDetached(final CallbackContext callbackContext) {
+		Log.d(TAG, "Registering callback");
+		cordova.getThreadPool().execute(new Runnable() {
+			public void run() {
+				IntentFilter filterAttachDetach = new IntentFilter();
+				filterAttachDetach.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+				// this broadcast receiver will handle the results
+				UsbBroadcastReceiver usbReceiver = new UsbBroadcastReceiver(callbackContext, cordova.getActivity());
+				cordova.getActivity().registerReceiver(usbReceiver, filterAttachDetach);
 			}
 		});
 	}
