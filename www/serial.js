@@ -75,6 +75,15 @@ var serial = {
             'usbDetached',
             []
         );
+    },
+    usbAttached: function (successCallback, errorCallback) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            'Serial',
+            'usbAttached',
+            []
+        );
     }
 
 };
