@@ -58,8 +58,8 @@ public class UsbBroadcastReceiver extends BroadcastReceiver {
 		} else if (action.equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
 			callbackContext.success();
 			//activity.unregisterReceiver(this);
-		} else if (action.equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-			callbackContext.success("Device disconnected!");
+		} else if (action.equals(UsbManager.ACTION_USB_ACCESSORY_ATTACHED)) {
+			callbackContext.success();
 			//activity.unregisterReceiver(this);
 		}
 	}	
