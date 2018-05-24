@@ -469,7 +469,7 @@ public class Serial extends CordovaPlugin {
                 readCallback = callbackContext;
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
                 pluginResult.setKeepCallback(true);
-                callbackContext.success();
+                callbackContext.sendPluginResult(pluginResult);
             }
         }));
     }
