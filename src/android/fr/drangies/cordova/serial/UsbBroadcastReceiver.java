@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
+import org.apache.cordova.PluginResult;
 
 /**
  * Custom {@link BroadcastReceiver} that can talk through a cordova {@link CallbackContext}
@@ -56,10 +57,14 @@ public class UsbBroadcastReceiver extends BroadcastReceiver {
 			// unregister the broadcast receiver since it's no longer needed
 			activity.unregisterReceiver(this);
 		} else if (action.equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-			callbackContext.success();
+			PluginResult result = new PluginResult(PluginResult.Status.OK);
+			result.setKeepCallback(true);
+			callbackContext.sendPluginResult(result);
 			//activity.unregisterReceiver(this);
 		} else if (action.equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-			callbackContext.success();
+			PluginResult result = new PluginResult(PluginResult.Status.OK);
+			result.setKeepCallback(true);
+			callbackContext.sendPluginResult(result);
 			//activity.unregisterReceiver(this);
 		}
 	}	
