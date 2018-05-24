@@ -462,7 +462,7 @@ public class Serial extends CordovaPlugin {
      */
     private void registerReadCallback(final CallbackContext callbackContext) {
         Log.d(TAG, "Registering callback");
-        cordova.getThreadPool().execute((new Runnable() {
+        cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "Registering Read Callback");
@@ -471,7 +471,7 @@ public class Serial extends CordovaPlugin {
                 pluginResult.setKeepCallback(true);
                 callbackContext.sendPluginResult(pluginResult);
             }
-        }));
+        });
     }
 
     /**
